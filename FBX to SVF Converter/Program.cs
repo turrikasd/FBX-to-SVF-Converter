@@ -76,6 +76,16 @@ namespace FBX_to_SVF_Converter
 
         static bool Convert7300(string file)
         {
+            int vertexCount, indexCount;
+            string[] vertices, indices;
+
+            int a = file.IndexOf("Vertices:");
+            int b = file.Substring(a).IndexOf(' ') + 2;
+            int c = file.Substring(a + b).IndexOf('{');
+            if (!int.TryParse(file.Substring(a + b, c - 1), out vertexCount)) return false;
+
+            Console.WriteLine(vertexCount);
+
             return true;
         }
 
