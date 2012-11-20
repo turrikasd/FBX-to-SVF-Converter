@@ -80,11 +80,25 @@ namespace FBX_to_SVF_Converter
             string[] vertices, indices;
 
             int a = file.IndexOf("Vertices:");
-            int b = file.Substring(a).IndexOf(' ') + 2;
-            int c = file.Substring(a + b).IndexOf('{');
-            if (!int.TryParse(file.Substring(a + b, c - 1), out vertexCount)) return false;
+            int b = file.Substring(a).IndexOf(' ');
+            int c = file.Substring(a + b + 2).IndexOf('{');
+            if (!int.TryParse(file.Substring(a + b + 2, c - 1), out vertexCount)) return false;
+            vertexCount /= 3;
 
-            Console.WriteLine(vertexCount);
+            Console.WriteLine("Model contains " + vertexCount + " vertices");
+
+            int d = file.Substring(a + b + c).IndexOf("a: ") + a + b + c;
+            int e = file.Substring(d).IndexOf("\n");
+
+            vertices = file.Substring(d + 3, e).Split(',');
+
+            for (int i = 0; i < vertices.Count(); i++)
+            {
+                if (i % 3 == 0)
+                    Console.WriteLine("\n"+ "--" + (i / 3 + 1) + ":");
+
+                Console.WriteLine(vertices[i]);
+            }
 
             return true;
         }
