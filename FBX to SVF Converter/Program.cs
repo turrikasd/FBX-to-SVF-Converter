@@ -20,6 +20,7 @@ namespace FBX_to_SVF_Converter
                     BeginConversion(a);
             }
 
+            Console.WriteLine("All done. Press any key to exit");
             Console.ReadKey();
         }
 
@@ -145,13 +146,46 @@ namespace FBX_to_SVF_Converter
 
         static bool SaveToFile(int vertexCount, int indexCount, string[] vertices, string[] indices, string fileName)
         {
+            // Create directory if it doesn't excist
             if (!Directory.Exists("SVF"))
                 Directory.CreateDirectory("SVF");
 
+
             StreamWriter sw = new StreamWriter("SVF\\" + fileName + ".svf");
 
-            sw.WriteLine("Vertices: " + vertexCount);
-            sw.WriteLine("Indices: " + indexCount);
+            // Write the vertex and index counts to the file
+            sw.WriteLine("Vertex Count: " + vertexCount);
+            sw.WriteLine("Index Count: " + indexCount);
+
+            sw.WriteLine();
+
+            sw.WriteLine("Vertices:\n");
+
+            // Loop through all vertices in the array
+            for (int i = 0; i < vertices.Count(); i++)
+            {
+                if (i % 3 == 0 && i != 0)
+                    sw.WriteLine();
+
+                sw.Write(vertices[i]);
+
+                if ((i + 1) % 3 != 0)
+                    sw.Write(",");
+            }
+
+            sw.WriteLine();
+            sw.WriteLine();
+
+            sw.WriteLine("Indices:\n");
+
+            // Loop through all indices in the array
+            for (int i = 0; i < indices.Count(); i++)
+            {
+                sw.Write(indices[i]);
+                
+                if (i < indices.Count() - 1)
+                    sw.Write(",");
+            }
 
             sw.Close();
 
