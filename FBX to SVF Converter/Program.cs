@@ -96,7 +96,7 @@ namespace FBX_to_SVF_Converter
             if (!int.TryParse(file.Substring(a + b + 2, c - 1), out vertexCount)) return false;
             vertexCount /= 3;
 
-            Console.WriteLine("Model contains " + vertexCount + " vertices");
+            Console.WriteLine("Model " + fileName + " contains " + vertexCount + " vertices");
 
             // Find vertices
             int d = file.Substring(a + b + c).IndexOf("a: ") + a + b + c;
@@ -121,7 +121,7 @@ namespace FBX_to_SVF_Converter
             int h = file.Substring(f + g + 2).IndexOf('{');
             if (!int.TryParse(file.Substring(a + b + 2, c - 1), out indexCount)) return false;
 
-            Console.WriteLine("Model contains " + indexCount + " indices");
+            Console.WriteLine("Model " + fileName + " contains " + indexCount + " indices");
 
             // Find indices
             int j = file.Substring(f + g + h).IndexOf("a: ") + f + g + h;
@@ -135,6 +135,8 @@ namespace FBX_to_SVF_Converter
             }
 
             SaveToFile(vertexCount, indexCount, vertices, indices, fileName);
+
+            Console.WriteLine();
 
             return true;
         }
