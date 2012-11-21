@@ -235,6 +235,7 @@ namespace FBX_to_SVF_Converter
 
             sw.Close();
 
+            Console.WriteLine();
             Console.WriteLine("Saving " + fileName + " to: SVF\\" + fileName + ".svf");
 
             return true;
