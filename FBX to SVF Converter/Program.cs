@@ -143,6 +143,50 @@ namespace FBX_to_SVF_Converter
 
         static bool Convert6100(string file, string fileName)
         {
+            int vertexCount, indexCount;
+            string[] vertices, indices;
+
+            // Find vertices
+            int a = file.IndexOf("Vertices: ");
+            int b = file.Substring(a).IndexOf(' ');
+            int c = file.Substring(a + b).IndexOf("PolygonVertexIndex: ");
+            vertices = file.Substring(a + b + 1, c - 4).Replace("	", "").Replace("\n", "").Split(',');
+
+            for (int i = 0; i < vertices.Count(); i++)
+            {
+                if (i % 3 == 0)
+                    Console.WriteLine("\n" + "--" + (i / 3 + 1) + ":");
+
+                Console.WriteLine(vertices[i]);
+            }
+
+            // Get vertexCount from vertices array
+            vertexCount = vertices.Count() / 3;
+            Console.WriteLine();
+            Console.WriteLine("Model " + fileName + " contains " + vertexCount + " vertices");
+
+
+            // Find indices
+            int d = file.IndexOf("PolygonVertexIndex: ");
+            int e = file.Substring(d).IndexOf(' ');
+            int f = file.Substring(d + e).IndexOf("Edges:");
+            indices = file.Substring(d + e + 1, f - 4).Split(',');
+
+            foreach (string s in indices)
+            {
+                Console.Write(s + ", ");
+            }
+
+            // Get indexCount from indices array
+            indexCount = indices.Count();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Model " + fileName + " contains " + indexCount + " indices");
+
+            SaveToFile(vertexCount, indexCount, vertices, indices, fileName);
+
+            Console.WriteLine();
+
             return true;
         }
 
@@ -190,6 +234,8 @@ namespace FBX_to_SVF_Converter
             }
 
             sw.Close();
+
+            Console.WriteLine("Saving " + fileName + " to: SVF\\" + fileName + ".svf");
 
             return true;
         }
